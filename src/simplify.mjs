@@ -25,6 +25,31 @@ const getDuplicatePoints = points => points.reduce((acc, val, idx, arr) => {
 }, {});
 
 /**
+ * Filter to only unique points
+ * @param {Array} points
+ * @returns {Array}
+ */
+const getUniquePoints = points => points.filter((val, idx, arr) =>
+  idx === findFirstIndexOfPoint(val.toString(), arr));
+
+/**
+ * Map of indices from one array of points to the other
+ * @param {Array} origPoints
+ * @param {Array} uniquePoints - the set of points without duplicates
+ * @returns {object}
+ */
+const mapUniquePoints = (origPoints, uniquePoints) => origPoints.reduce((acc, val, idx) => {
+  const firstIdx = findFirstIndexOfPoint(val.toString(), uniquePoints);
+
+  // Have to handle both duplicates and the early matches
+  if (idx !== firstIdx || acc[idx] === undefined) {
+    acc[idx] = firstIdx;
+  }
+
+  return acc;
+}, {});
+
+/**
  * Provide the percentage, as a decimal, of duplicate points in the object
  * @param {Array} points
  * @param {Array} [dupPoints]
@@ -41,6 +66,7 @@ const getDuplicatePercentage = (points, dupPoints = getDuplicatePoints(points)) 
  * @param {Array} face - the array of indices in origPoints
  * @param {Array} origPoints - set of original points
  * @param {Array} newPoints - the set of new points
+ * @returns {{points: *[], face: number[]}}
  */
 const cleanFace = (face, origPoints, newPoints) => face.reduce((acc, pointIdx) => {
   const origPoint = origPoints[pointIdx];
@@ -66,8 +92,9 @@ const cleanFace = (face, origPoints, newPoints) => face.reduce((acc, pointIdx) =
  * We can use this to compare any new methods
  * @param {Array} points
  * @param {Array} faces
+ * @returns {{points: *[], faces: *[]}}
  */
-const bruteForceClean = (points, faces) => {
+const cleanByBruteForce = (points, faces) => {
   const latest = faces.reduce((acc, face) => {
     const cleanedFace = cleanFace(face, points, acc.points);
 
@@ -84,20 +111,42 @@ const bruteForceClean = (points, faces) => {
 };
 
 /**
+ * Correct the indices of the face using the index map
+ * @param {object} map
+ * @param {Array} face
+ * @returns {Array}
+ */
+const cleanFaceWithMap = (map, face) => face.map(index => map[index]);
+
+const cleanByDuplicateMap = (points, faces) => {
+  const newPoints = getUniquePoints(points);
+  const dupMap = mapUniquePoints(points, newPoints);
+  const newFaces = faces.map(face => cleanFaceWithMap(dupMap, face));
+
+  return {
+    points: newPoints,
+    faces: newFaces,
+  };
+};
+
+/**
  *
  * @param {Array} points
  * @param {Array} faces
  * @param {boolean} [report]
+ * @returns {{points: *[], faces: *[]}}
  */
 const cleanup = ({ points, faces }, report = false) => {
   if (report) {
     console.log('Duplicates', getDuplicatePercentage(points));
   }
 
-  return bruteForceClean(points, faces);
+  return cleanByBruteForce(points, faces);
 };
 
 export {
+  cleanByBruteForce,
+  cleanByDuplicateMap,
   cleanup,
   cleanFace,
   findFirstIndexOfPoint,
