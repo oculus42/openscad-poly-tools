@@ -1,7 +1,7 @@
 # openscad-poly-simplify
 A library to reduce point duplication in OpenSCAD Polyhedrons
 
-## Motivaiton
+## Motivation
 After importing an STL into OpenSCAD with http://jsfiddle.net/Riham/yzvGD/ I realized there was a significant duplication of points.
 
 ## Goals
