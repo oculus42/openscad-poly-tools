@@ -153,4 +153,5 @@ export {
   findFirstIndexOfPoint,
   getDuplicatePercentage,
   getDuplicatePoints,
+  mapUniquePoints,
 };
