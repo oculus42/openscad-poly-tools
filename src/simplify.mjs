@@ -146,6 +146,7 @@ const cleanup = ({ points, faces }, report = false) => {
 
 export {
   cleanByBruteForce,
+  // TODO: cleanByDuplicateMap runs about 3X slower
   cleanByDuplicateMap,
   cleanup,
   cleanFace,
