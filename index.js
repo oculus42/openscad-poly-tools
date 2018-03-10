@@ -1,3 +1,5 @@
-import simplify from './src/simplify';
+import simplify from './src/simplify.mjs';
 
-export default simplify;
+export default {
+  simplify: simplify.cleanup
+};
