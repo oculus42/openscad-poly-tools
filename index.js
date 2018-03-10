@@ -1,5 +1,7 @@
-import simplify from './src/simplify.mjs';
+import { cleanup } from './src/simplify.mjs';
+import { moveBottomToAxis } from './src/translate.mjs';
 
 export default {
-  simplify: simplify.cleanup
+  moveToAxis: moveBottomToAxis,
+  simplify: cleanup,
 };
