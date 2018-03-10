@@ -35,8 +35,25 @@ const moveEdgeToAxis = (points, axisIndex = 0, moveTop = false) => {
  */
 const moveBottomToAxis = (points, axisIndex = 0) => moveEdgeToAxis(points, axisIndex, false);
 
+/**
+ * Translate an object on all axes
+ * @param {Array} points
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @returns {Array}
+ */
+const translate = (points, { x = 0, y = 0, z = 0 } = {}) => {
+  const xShift = shiftOnAxis.bind(undefined, 0, x);
+  const yShift = shiftOnAxis.bind(undefined, 1, y);
+  const zShift = shiftOnAxis.bind(undefined, 2, z);
+  return xShift(yShift(zShift(points)));
+};
+
 export default {
   moveBottomToAxis,
   moveEdgeToAxis,
   shiftOnAxis,
+  translate,
 };
+
