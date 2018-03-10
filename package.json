@@ -1,0 +1,31 @@
+{
+  "name": "openscad-poly-simplify",
+  "version": "1.0.0",
+  "description": "OpenSCAD Polyhedron Cleanup",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oculus42/openscad-poly-simplify.git"
+  },
+  "keywords": [
+    "OpenSCAD",
+    "polyhedron",
+    "simplify",
+    "cleanup",
+    "CAD",
+    "3D",
+    "Printing"
+  ],
+  "author": "Samuel Rouse",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oculus42/openscad-poly-simplify/issues"
+  },
+  "homepage": "https://github.com/oculus42/openscad-poly-simplify#readme",
+  "dependencies": {
+    "lodash": "^4.17.5"
+  }
+}
