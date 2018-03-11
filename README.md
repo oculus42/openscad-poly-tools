@@ -18,13 +18,13 @@ osPoly.simplify({
 
 Removes duplicate points in the `points` array and remaps the indexes in `faces`.
 
-### osPoly.moveOnAxis(axisIndex, amount, points);
+### osPoly.translate(points, offset);
 
 ```javascript
-osPoly.moveOnAxis(1, 10.25, myPoints);
+osPoly.translate(myPoints, { x: 5, y: 0, z: -1});
 ```
 
-Intended to *slide* an object to an axis.
+Recenter the object 
 
 `axisIndex` matches the index of the `[x, y, z]` coordinates (i.e. `0`, `1`, `2`).  
 `moveTop` is a Boolean that indicates whether the smallest (`false`) or largest (`true`) value will move to origin.
