@@ -1,9 +1,8 @@
 import { cleanup } from './src/simplify.mjs';
-import { moveEdgeToAxis, shiftOnAxis, translate } from './src/translate.mjs';
+import { moveToAxis, translate } from './src/translate.mjs';
 
 export default {
+  moveToAxis,
   translate,
-  moveOnAxis: shiftOnAxis,
-  moveToAxis: moveEdgeToAxis,
   simplify: cleanup,
 };

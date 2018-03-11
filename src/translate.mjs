@@ -26,14 +26,14 @@ const moveEdgeToAxis = (points, axisIndex = 0, moveTop = false) => {
   return shiftOnAxis(axisIndex, -base, points);
 };
 
-
 /**
  * Shift all points on the specified axis so the lowest is at zero
  * @param {Array} points - An array of points to manipulate
  * @param {number} [axisIndex] - 0 = x, 1 = y, 2 = z
+ * @param {boolean} [moveTop] - whether to shift the top or bottom
  * @returns {Array} Updated Points
  */
-const moveBottomToAxis = (points, axisIndex = 0) => moveEdgeToAxis(points, axisIndex, false);
+const moveToAxis = (axisIndex, moveTop, points) => moveEdgeToAxis(points, axisIndex, moveTop);
 
 /**
  * Translate an object on all axes
@@ -51,8 +51,8 @@ const translate = (points, { x = 0, y = 0, z = 0 } = {}) => {
 };
 
 export default {
-  moveBottomToAxis,
   moveEdgeToAxis,
+  moveToAxis,
   shiftOnAxis,
   translate,
 };
