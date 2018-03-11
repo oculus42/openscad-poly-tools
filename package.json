@@ -1,6 +1,6 @@
 {
   "name": "openscad-poly-tools",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "OpenSCAD Polyhedron Tools",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oculus42/openscad-poly-simplify.git"
+    "url": "git+https://github.com/oculus42/openscad-poly-tools.git"
   },
   "keywords": [
     "OpenSCAD",
@@ -22,9 +22,9 @@
   "author": "Samuel Rouse",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oculus42/openscad-poly-simplify/issues"
+    "url": "https://github.com/oculus42/openscad-poly-tools/issues"
   },
-  "homepage": "https://github.com/oculus42/openscad-poly-simplify#readme",
+  "homepage": "https://github.com/oculus42/openscad-poly-tools#readme",
   "dependencies": {
     "lodash": "^4.17.5"
   },

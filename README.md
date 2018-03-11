@@ -45,6 +45,7 @@ Intended to *drop* an object to the origin of an axis.
 ## Goals
 * ~~Perform simple, brute-force point de-duplication on polyhedrons.~~
 * ~~Move objects~~
-* Cut parts of an object
-* Identify faces sharing points in the same plane and merge them.
+* ~~Cut parts of an object~~
 * Incorporate the importer from https://www.thingiverse.com/thing:62666
+* Provide a consistent interface for all functions
+* Identify faces sharing points in the same plane and merge them
