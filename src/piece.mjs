@@ -1,17 +1,5 @@
+import _ from 'lodash';
 import { mapUniquePoints } from './simplify.mjs';
-
-// /**
-//  * Creates an array of indices for points affected by the predicate
-//  * @param {function} predicate
-//  * @param {Array} points
-//  * @returns {Array}
-//  */
-// const findAffectedPoints = (predicate, points) => points.reduce((acc, point, index) => {
-//   if (predicate(point)) {
-//     acc.push(index);
-//   }
-//   return acc;
-// }, []);
 
 /**
  * Filters an array of points affected by the predicate
@@ -36,21 +24,51 @@ const cleanFaceWithMap = (map, face) => face.map(index => map[index]);
  */
 const cleanBadFaces = faces => faces.filter(face => face.indexOf(-1) === -1);
 
+/**
+ * Extract the used point indices from the existing faces
+ * @param faces
+ * @returns {Array}
+ */
+const getUniqueIndexes = faces => _.chain(faces).flatten(true).uniq().value();
+
+/**
+ * Eliminate unused points from the object
+ * @param {Array} points
+ * @param {Array} faces
+ * @return {{points: *[], faces: *[]}}
+ */
+const removeDeadPoints = ({ points, faces }) => {
+  const usedPoints = getUniqueIndexes(faces);
+  const cleanPoints = points.filter((point, index) => usedPoints.includes(index));
+  const pointsMap = mapUniquePoints(points, cleanPoints);
+  const newFaces = faces.map(face => cleanFaceWithMap(pointsMap, face));
+  return {
+    points: cleanPoints,
+    faces: newFaces,
+  };
+};
+
+/**
+ * Remove any points that do not match the predicate
+ * @param predicate
+ * @param points
+ * @param faces
+ * @return {{points: Array, faces: Array}}
+ */
 const filterForMatch = (predicate, { points, faces }) => {
   const affectedPoints = findAffectedPoints(predicate, points);
   const map = mapUniquePoints(points, affectedPoints);
   const newFaces = faces.map(face => cleanFaceWithMap(map, face));
   const cleanFaces = cleanBadFaces(newFaces);
 
-  return {
+  return removeDeadPoints({
     points: affectedPoints,
     faces: cleanFaces,
-  };
+  });
 };
-
-const removeDeadPoints = ({points, faces})
 
 export default {
   findAffectedPoints,
   filterForMatch,
+  removeDeadPoints,
 };
