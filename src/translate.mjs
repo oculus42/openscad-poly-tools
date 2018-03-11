@@ -36,6 +36,21 @@ const moveEdgeToAxis = (points, axisIndex = 0, moveTop = false) => {
 const moveToAxis = (axisIndex, moveTop, points) => moveEdgeToAxis(points, axisIndex, moveTop);
 
 /**
+ * Center the object using the min and max points
+ * @param {number} axisIndex
+ * @param {Array} points
+ * @return {Array}
+ */
+const centerOnAxis = (axisIndex, points) => {
+  const axisPoints = points.map(point => point[axisIndex]);
+  const lower = Math.min(...axisPoints);
+  const upper = Math.max(...axisPoints);
+  const base = (lower + upper) / 2;
+
+  return shiftOnAxis(axisIndex, -base, points);
+};
+
+/**
  * Translate an object on all axes
  * @param {Array} points
  * @param {number} x
@@ -51,6 +66,7 @@ const translate = (points, { x = 0, y = 0, z = 0 } = {}) => {
 };
 
 export default {
+  centerOnAxis,
   moveEdgeToAxis,
   moveToAxis,
   shiftOnAxis,
