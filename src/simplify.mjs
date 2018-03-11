@@ -118,6 +118,12 @@ const cleanByBruteForce = (points, faces) => {
  */
 const cleanFaceWithMap = (map, face) => face.map(index => map[index]);
 
+/**
+ * Clean by using a duplicates map rather than brute force
+ * @param {Array} points
+ * @param {Array} faces
+ * @returns {{points: *[], faces: *[]}}
+ */
 const cleanByDuplicateMap = (points, faces) => {
   const newPoints = getUniquePoints(points);
   const dupMap = mapUniquePoints(points, newPoints);
