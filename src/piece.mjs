@@ -42,12 +42,12 @@ const removeDeadPoints = ({ points, faces }) => {
 
 /**
  * Remove any points that do not match the predicate
- * @param predicate
- * @param points
- * @param faces
+ * @param {Array} points
+ * @param {Array} faces
+ * @param {function} predicate - returns true for points you want to keep.
  * @return {{points: Array, faces: Array}}
  */
-const filterForMatch = (predicate, { points, faces }) => {
+const filterForMatch = ({ points, faces }, predicate) => {
   const affectedPoints = findAffectedPoints(predicate, points);
   const map = mapUniquePoints(points, affectedPoints);
   const newFaces = faces.map(face => cleanFaceWithMap(map, face));
@@ -60,7 +60,6 @@ const filterForMatch = (predicate, { points, faces }) => {
 };
 
 export default {
-  findAffectedPoints,
   filterForMatch,
   removeDeadPoints,
 };
