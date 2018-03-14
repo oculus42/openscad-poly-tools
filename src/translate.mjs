@@ -5,12 +5,16 @@
  * @param {Array} points
  * @returns {Array} Modified Points
  */
-const shiftOnAxis = (axisIndex, amount, points) =>
-  points.map((point) => {
+const shiftOnAxis = (axisIndex, amount, points) => {
+  if (amount == null || amount === 0) {
+    return points;
+  }
+  return points.map((point) => {
     const newPoint = [...point];
     newPoint[axisIndex] += amount;
     return newPoint;
   });
+};
 
 /**
  * Shift all points on the specified axis so the lowest is at zero

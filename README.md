@@ -4,6 +4,9 @@ A library to manipulate OpenSCAD Polyhedrons
 ## Motivation
 After importing an STL into OpenSCAD with [http://jsfiddle.net/Riham/yzvGD/](http://jsfiddle.net/Riham/yzvGD/) I realized there was a significant duplication of points.
 
+### JSFiddle Update
+I also [forked the JSFiddle](http://jsfiddle.net/_sir/yzvGD/595/) with a version that prevents the extra vertices.
+
 ## Features
 
 ### osPoly.simplify({points, faces});
