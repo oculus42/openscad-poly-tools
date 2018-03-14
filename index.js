@@ -1,11 +1,11 @@
-import { filterForMatch, removeDeadPoints } from './src/piece.mjs';
+import { filterForMatch, removeDeadPoints } from './src/edit.mjs';
 import { reportDuplicatePercentage, simplify } from './src/simplify.mjs';
-import { centerOnAxis, moveToAxis, translate } from './src/translate.mjs';
+import { centerOnAxis, moveToOrigin, translate } from './src/translate.mjs';
 
 export default {
   centerOnAxis,
   filterForMatch,
-  moveToAxis,
+  moveToOrigin,
   removeDeadPoints,
   reportDuplicatePercentage,
   simplify,
