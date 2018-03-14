@@ -53,7 +53,7 @@ const centerOnAxis = (axisIndex, points) => {
  * @param {number} z
  * @returns {Array}
  */
-const translate = (points, { x = 0, y = 0, z = 0 } = {}) => {
+const translatePoints = (points, { x = 0, y = 0, z = 0 } = {}) => {
   const xShift = shiftOnAxis.bind(undefined, 0, x);
   const yShift = shiftOnAxis.bind(undefined, 1, y);
   const zShift = shiftOnAxis.bind(undefined, 2, z);
