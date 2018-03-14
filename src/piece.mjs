@@ -1,5 +1,4 @@
-import _ from 'lodash';
-import { mapUniquePoints } from './simplify.mjs';
+import { getUniqueIndexes, mapUniquePoints } from './util.mjs';
 
 /**
  * Filters an array of points affected by the predicate
@@ -23,13 +22,6 @@ const cleanFaceWithMap = (map, face) => face.map(index => map[index]);
  * @returns {Array}
  */
 const cleanBadFaces = faces => faces.filter(face => face.indexOf(-1) === -1);
-
-/**
- * Extract the used point indices from the existing faces
- * @param faces
- * @returns {Array}
- */
-const getUniqueIndexes = faces => _.chain(faces).flatten(true).uniq().value();
 
 /**
  * Eliminate unused points from the object
