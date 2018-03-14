@@ -49,9 +49,9 @@ const centerOnAxis = (axisIndex, points) => {
   const axisPoints = points.map(point => point[axisIndex]);
   const lower = Math.min(...axisPoints);
   const upper = Math.max(...axisPoints);
-  const base = (lower + upper) / 2;
+  const center = (lower + upper) / 2;
 
-  return shiftOnAxis(axisIndex, -base, points);
+  return shiftOnAxis(axisIndex, -center, points);
 };
 
 /**
