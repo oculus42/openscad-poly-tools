@@ -69,6 +69,20 @@ const translate = (points, { x = 0, y = 0, z = 0 } = {}) => {
   return xShift(yShift(zShift(points)));
 };
 
+/**
+ * Convert axis string or index to index
+ * @param {string|number} axis
+ * @return {number}
+ */
+const getAxis = axis => ({
+  0: 0,
+  1: 1,
+  2: 2,
+  x: 0,
+  y: 1,
+  z: 2,
+}[axis]);
+
 export default {
   centerOnAxis,
   moveEdgeToAxis,
