@@ -31,15 +31,6 @@ const moveEdgeToAxis = (points, axisIndex = 0, moveTop = false) => {
 };
 
 /**
- * Shift all points on the specified axis so the lowest is at zero
- * @param {Array} points - An array of points to manipulate
- * @param {number} [axisIndex] - 0 = x, 1 = y, 2 = z
- * @param {boolean} [moveTop] - whether to shift the top or bottom
- * @returns {Array} Updated Points
- */
-const moveToAxis = (axisIndex, moveTop, points) => moveEdgeToAxis(points, axisIndex, moveTop);
-
-/**
  * Center the object using the min and max points
  * @param {number} axisIndex
  * @param {Array} points
