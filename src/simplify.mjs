@@ -1,4 +1,4 @@
-import { findFirstIndexOfPoint, mapUniquePoints } from './util.mjs';
+import { findFirstIndexOfPoint } from './util.mjs';
 
 /**
  *
@@ -14,14 +14,6 @@ const getDuplicatePoints = points => points.reduce((acc, val, idx, arr) => {
 
   return acc;
 }, {});
-
-/**
- * Filter to only unique points
- * @param {Array} points
- * @returns {Array}
- */
-const getUniquePoints = points => points.filter((val, idx, arr) =>
-  idx === findFirstIndexOfPoint(val.toString(), arr));
 
 /**
  * Provide the percentage, as a decimal, of duplicate points in the object
@@ -85,46 +77,16 @@ const cleanByBruteForce = (points, faces) => {
 };
 
 /**
- * Correct the indices of the face using the index map
- * @param {object} map
- * @param {Array} face
- * @returns {Array}
- */
-const cleanFaceWithMap = (map, face) => face.map(index => map[index]);
-
-/**
- * Clean by using a duplicates map rather than brute force
- * @param {Array} points
- * @param {Array} faces
- * @returns {{points: *[], faces: *[]}}
- */
-const cleanByDuplicateMap = (points, faces) => {
-  const newPoints = getUniquePoints(points);
-  const dupMap = mapUniquePoints(points, newPoints);
-  const newFaces = faces.map(face => cleanFaceWithMap(dupMap, face));
-
-  return {
-    points: newPoints,
-    faces: newFaces,
-  };
-};
-
-/**
  *
  * @param {Array} points
  * @param {Array} faces
  * @returns {{points: *[], faces: *[]}}
  */
-const cleanup = ({ points, faces }) => cleanByBruteForce(points, faces);
+const simplify = ({ points, faces }) => cleanByBruteForce(points, faces);
+
+const reportDuplicatePercentage = ({ points }) => getDuplicatePercentage(points);
 
 export {
-  cleanByBruteForce,
-  // TODO: cleanByDuplicateMap runs about 3X slower that brute force method?
-  cleanByDuplicateMap,
-  cleanup,
-  cleanFace,
-  findFirstIndexOfPoint,
-  getDuplicatePercentage,
-  getDuplicatePoints,
-  mapUniquePoints,
+  reportDuplicatePercentage,
+  simplify,
 };
