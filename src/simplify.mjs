@@ -113,20 +113,13 @@ const cleanByDuplicateMap = (points, faces) => {
  *
  * @param {Array} points
  * @param {Array} faces
- * @param {boolean} [report]
  * @returns {{points: *[], faces: *[]}}
  */
-const cleanup = ({ points, faces }, report = false) => {
-  if (report) {
-    console.log('Duplicates', getDuplicatePercentage(points));
-  }
-
-  return cleanByBruteForce(points, faces);
-};
+const cleanup = ({ points, faces }) => cleanByBruteForce(points, faces);
 
 export {
   cleanByBruteForce,
-  // TODO: cleanByDuplicateMap runs about 3X slower
+  // TODO: cleanByDuplicateMap runs about 3X slower that brute force method?
   cleanByDuplicateMap,
   cleanup,
   cleanFace,
