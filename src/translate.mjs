@@ -74,6 +74,52 @@ const getAxis = axis => ({
   z: 2,
 }[axis]);
 
+
+/*
+ * Consistent parameters
+ */
+
+
+/**
+ * Align
+ * @param {Array} points - Array of points to manipulate
+ * @param {Array} faces - Array of faces. Passed to the return object
+ * @param {number|string} axis - axis 'x', 'y', 'z' or index 0, 1, 2.
+ * @return {{faces: *, points: Array}}
+ */
+const center = ({ points, faces }, axis) => {
+  const useAxis = getAxis(axis);
+  return {
+    faces,
+    points: centerOnAxis(useAxis, points),
+  };
+};
+
+/**
+ * Move the "bottom" or "top" of the model to the origin
+ * @param {Array} points - Array of points to manipulate
+ * @param {Array} faces - Array of faces. Passed to the return object
+ * @param {number|string} [axis] - axis 'x', 'y', 'z' or index 0, 1, 2.
+ * @param {boolean} [moveTop] - Use the bottom (Math.min) or top (Math.max) point for alignment.
+ * @return {{faces: *, points: Array}}
+ */
+const moveToOrigin = ({ points, faces }, axis, moveTop) => ({
+  faces,
+  points: moveEdgeToAxis(points, getAxis(axis), moveTop),
+});
+
+/**
+ *
+ * @param {Array} points - Array of points to manipulate
+ * @param {Array} faces - Array of faces. Passed to the return object
+ * @param {{x:number, y:number, z:number}} vector - Indicates the amount to move on each axis.
+ * @return {{faces: *, points: Array}}
+ */
+const translate = ({ faces, points }, vector) => ({
+  faces,
+  points: translatePoints(points, vector),
+});
+
 export default {
   centerOnAxis,
   moveEdgeToAxis,
