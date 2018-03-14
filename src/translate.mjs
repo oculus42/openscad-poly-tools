@@ -121,10 +121,8 @@ const translate = ({ faces, points }, vector) => ({
 });
 
 export default {
-  centerOnAxis,
-  moveEdgeToAxis,
-  moveToAxis,
-  shiftOnAxis,
+  center,
+  moveToOrigin,
   translate,
 };
 
