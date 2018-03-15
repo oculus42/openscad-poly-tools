@@ -34,11 +34,11 @@ osPoly.simplify(myModel);
 
 ### Translate Functions
 
-### centerOnAxis(model, axis)
+### center(model, axis)
 Move the center (average of the highest and lowest points) of a model to the origin of the specified axis.
 
 ```javascript
-osPoly.centerOnAxis(myModel, 'x')
+osPoly.center(myModel, 'x')
 ```
 
 #### moveToOrigin(model, axis, [moveTop])
