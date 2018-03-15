@@ -59,3 +59,9 @@ typings/
 
 # WebStorm
 .idea/
+
+# Macintosh
+.DS_Store
+
+# Build
+dist/
