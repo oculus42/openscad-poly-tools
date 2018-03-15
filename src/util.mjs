@@ -1,4 +1,6 @@
-import _ from 'lodash';
+import findIndex from 'lodash/findIndex';
+import flatten from 'lodash/flatten';
+import uniq from 'lodash/uniq';
 
 /**
  * Locate the first index of a point in the points array
@@ -7,14 +9,14 @@ import _ from 'lodash';
  * @returns {number}
  */
 const findFirstIndexOfPoint = (pointString, points) =>
-  _.findIndex(points, point => point.toString() === pointString);
+  findIndex(points, point => point.toString() === pointString);
 
 /**
  * Extract the used point indices from the existing faces
  * @param faces
  * @returns {Array}
  */
-const getUniqueIndexes = faces => _.chain(faces).flatten(true).uniq().value();
+const getUniqueIndexes = faces => uniq(flatten(faces, true));
 
 /**
  * Map of indices from one array of points to the other
