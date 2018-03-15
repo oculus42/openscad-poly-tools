@@ -120,7 +120,7 @@ const translate = ({ faces, points }, vector) => ({
   points: translatePoints(points, vector),
 });
 
-export default {
+export {
   center,
   moveToOrigin,
   translate,

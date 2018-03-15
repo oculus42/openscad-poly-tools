@@ -59,7 +59,7 @@ const filterForMatch = ({ points, faces }, predicate) => {
   });
 };
 
-export default {
+export {
   filterForMatch,
   removeDeadPoints,
 };

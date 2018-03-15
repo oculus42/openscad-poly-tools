@@ -35,7 +35,7 @@ const mapUniquePoints = (origPoints, uniquePoints) => origPoints.reduce((acc, va
   return acc;
 }, {});
 
-export default {
+export {
   findFirstIndexOfPoint,
   getUniqueIndexes,
   mapUniquePoints,
