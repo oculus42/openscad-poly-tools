@@ -4,6 +4,8 @@
  * STL to OpenSCAD converter
  * This code will read an STL file and Generate an OpenSCAD file based on the content
  * it supports both ASCII and Binary STL files.
+ *
+ * ##### THIS FILE IS A WORK IN PROGRESS #####
  */
 
 const vertices = [];
