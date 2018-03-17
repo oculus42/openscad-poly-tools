@@ -1,6 +1,6 @@
 0.8.0 - 2018-03-17
- - Switch lodash to devDependency
- - Add node build to Webpack
+ - Remove lodash dependency
+ - Add node/UMD build to Webpack
  - Add CHANGELOG
  - Add html folder with convertor
 
