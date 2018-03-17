@@ -1,8 +1,8 @@
 {
   "name": "openscad-poly-tools",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "OpenSCAD Polyhedron Tools",
-  "main": "src/index.js",
+  "main": "dist/ospoly.node.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./node_modules/.bin/webpack --config webpack.config.js",

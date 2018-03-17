@@ -2,6 +2,7 @@
 A library to manipulate OpenSCAD Polyhedrons
 
 [![npm](https://img.shields.io/npm/v/openscad-poly-tools.svg)](https://www.npmjs.com/package/openscad-poly-tools) 
+[![Maintainability](https://api.codeclimate.com/v1/badges/3c18a09cf93fa7a24b88/maintainability)](https://codeclimate.com/github/oculus42/openscad-poly-tools/maintainability)
 
 This library is still in development (pre 1.0.0) and may change *significantly* between minor versions.
 Once it reaches 1.0.0 all breaking changes will use a major revision number, as dictated by semver.
