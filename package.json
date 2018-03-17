@@ -1,6 +1,6 @@
 {
   "name": "openscad-poly-tools",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "OpenSCAD Polyhedron Tools",
   "main": "src/index.js",
   "scripts": {
