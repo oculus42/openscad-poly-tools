@@ -1,0 +1,16 @@
+0.8.0 - 2018-03-17
+ - Switch lodash to devDependency
+ - Add node build to Webpack
+ - Add CHANGELOG
+ - Add html folder with convertor
+
+0.7.0 - 2018-03-14
+ - Switch to lodash/* packages rather than complete lodash.
+ - Add Webpack 4 build and includ dist files in NPM package.
+
+0.6.0 - 2018-03-13
+ - Consistent function signatures
+ - Clean up README
+
+0.1.0 - 2018-03-10
+ - Repo started
