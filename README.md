@@ -4,15 +4,13 @@ A library to manipulate OpenSCAD Polyhedrons
 [![npm](https://img.shields.io/npm/v/openscad-poly-tools.svg)](https://www.npmjs.com/package/openscad-poly-tools) 
 
 This library is still in development (pre 1.0.0) and may change *significantly* between minor versions.
-Once it reaches 1.0.0 all breaking changes will use a major revision number.
+Once it reaches 1.0.0 all breaking changes will use a major revision number, as dictated by semver.
 
-## Motivation
-After importing an STL into OpenSCAD with [http://jsfiddle.net/Riham/yzvGD/](http://jsfiddle.net/Riham/yzvGD/) I realized there was a significant duplication of points.
 
-### JSFiddle Update
-I also [forked the original JSFiddle](http://jsfiddle.net/_sir/yzvGD/595/) with a version that eliminates the extra vertices.
-The changes in the JSFiddle are not related to the `.simplify()` command created below, but import functionality is planned.
-
+### Convertor
+An update to the original STL to OpenSCAD convertor, which eliminate the extra vertices, is included as `convert.html`. 
+It is also [available online at JSFiddle](http://jsfiddle.net/_sir/yzvGD/595/). 
+There is a plan to provide a Node-friendly convertor by 1.0.0, as well.
 
 ## Functions
 
@@ -57,7 +55,6 @@ osPoly.translate(myModel, { x: 10, y: -2, z: 0.25 });
 
 ### Edit
 
-
 #### filterForMatch(model, predicate)
 Get only the faces of the model which have points matching the predicate.
 
@@ -76,7 +73,7 @@ osPoly.removeDeadPoints(myModel);
 
 ## Notes
 
-As of 0.6.0, all exposed functions take a model, which is an object with arrays of points and faces.
+All exposed functions take a model, which is an object with arrays of points and faces.
 
 ```javascript
 myModel = {
@@ -88,11 +85,21 @@ myModel = {
 Where an axis is specified, the library should accept the string `'x'`, `'y'`, or `'z'`; or their
 index `0`, `1`, or `2`, respectively.
 
+The original objects passed in are not modified.
+In some cases, the returned points and faces may reference the same original arrays.
+
+## Motivation
+After importing an STL into OpenSCAD with [Riham's STL to OpenSCAD Convertor](http://jsfiddle.net/Riham/yzvGD/)
+on JSFiddle and [Thingiverse](https://www.thingiverse.com/thing:62666)), I discovered a significant duplication of points.
+I started working on a way to correct this. Along the way, this library was created.
 
 ## Goals
 * ~~Perform simple, brute-force point de-duplication on polyhedrons.~~
 * ~~Move objects~~
 * ~~Cut parts of an object~~
 * ~~Provide a consistent interface for all functions~~
-* Incorporate the importer from https://www.thingiverse.com/thing:62666
+* ~~Incorporate an update to Riham's original importer~~
+* Provide a Node-friendly version of the import functionality
 * Identify faces sharing points in the same plane and merge them
+* Update the HTML convertor visuals
+* Provide ES5 version?
