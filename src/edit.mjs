@@ -1,4 +1,4 @@
-import { getUniqueIndexes, mapUniquePoints } from './util.mjs';
+import { getUniqueIndexes, mapUniquePoints } from './utils.mjs';
 
 /**
  * Filters an array of points affected by the predicate

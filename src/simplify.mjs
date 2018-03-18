@@ -1,4 +1,4 @@
-import { findFirstIndexOfPoint } from './util.mjs';
+import { findFirstIndexOfPoint } from './utils.mjs';
 
 /**
  *
