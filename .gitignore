@@ -65,3 +65,6 @@ typings/
 
 # Build
 dist/
+
+# Example
+exampleData/
