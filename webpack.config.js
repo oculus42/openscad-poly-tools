@@ -12,6 +12,7 @@ const serverConfig = {
 
 const clientConfig = {
   target: 'web', // <=== can be omitted as default is 'web'
+  entry: './src/index-web.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'ospoly.min.js',
