@@ -15,11 +15,13 @@ const bruteForceConvertObject = stlJson => stlJson.facets.reduce((acc, row) => (
   normals: [],
 });
 
-const getJsonFromStl = filename => (
-  readFileAsync(filename)
+const load = (filename) => {
+  const filePromise = readFileAsync(filename);
+  return filePromise
     .then(stl.toObject.bind(stl))
-    .then(bruteForceConvertObject));
+    .then(bruteForceConvertObject);
+};
 
-export default {
-  load: getJsonFromStl,
+export {
+  load,
 };
