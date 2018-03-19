@@ -48,7 +48,7 @@ const formatOpenScadPolyhedron = (object) => {
 const format = (object, moduleIndex = 1) =>
   formatOpenScadModule(formatOpenScadPolyhedron(object), moduleIndex);
 
-const save = (filename, data) => writeFileAsync(filename, data);
+const save = (filename, polyhedron) => writeFileAsync(filename, format(polyhedron));
 
 export {
   load,
