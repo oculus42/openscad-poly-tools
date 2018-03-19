@@ -4,6 +4,7 @@ const fs = require('fs');
 const util = require('util');
 
 const readFileAsync = util.promisify(fs.readFile);
+const writeFileAsync = util.promisify(fs.writeFile);
 
 const bruteForceConvertObject = stlJson => stlJson.facets.reduce((acc, row) => ({
   points: [...acc.points, ...row.verts],
@@ -22,6 +23,34 @@ const load = (filename) => {
     .then(bruteForceConvertObject);
 };
 
+
+const formatOpenScadModule = (operations, moduleIndex = 1) => {
+  return `module object${moduleIndex}() {
+  ${operations}
+  }`;
+};
+
+const formatOpenScadPolyhedron = (object) => {
+  const jsonString = JSON.stringify({
+    points: object.points,
+    faces: object.faces,
+  });
+
+  const scadString = jsonString
+    .replace('"points":', 'points=')
+    .replace('"faces":', 'faces=')
+    .replace(/[{}]/g, '');
+
+  return `polyhedron(${scadString});`;
+};
+
+const format = (object, moduleIndex = 1) =>
+  formatOpenScadModule(formatOpenScadPolyhedron(object), moduleIndex);
+
+const save = (filename, data) => writeFileAsync(filename, data);
+
 export {
   load,
+  format,
+  save,
 };
