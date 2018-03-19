@@ -12,15 +12,19 @@ import {
   translate,
 } from './index-web';
 
-import { load } from './convert.mjs';
+import { format, load, save } from './convert.mjs';
+import { process } from './process.mjs';
 
 export {
   center,
   filterForMatch,
+  format,
   load,
   moveToOrigin,
+  process,
   removeDeadPoints,
   reportDuplicatePercentage,
+  save,
   simplify,
   translate,
 };
