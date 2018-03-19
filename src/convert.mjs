@@ -24,13 +24,12 @@ const load = (filename) => {
 };
 
 
-const formatOpenScadModule = (operations, moduleIndex = 1) => {
-  return `module object${moduleIndex}() {
+const formatOpenScadModule = (operations, moduleIndex = 1) => `module object${moduleIndex}() {
   ${operations}
-  }
-  
-  object${moduleIndex}();`;
-};
+}
+
+object${moduleIndex}();
+`;
 
 const formatOpenScadPolyhedron = (object) => {
   const jsonString = JSON.stringify({
