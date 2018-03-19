@@ -27,7 +27,9 @@ const load = (filename) => {
 const formatOpenScadModule = (operations, moduleIndex = 1) => {
   return `module object${moduleIndex}() {
   ${operations}
-  }`;
+  }
+  
+  object${moduleIndex}();`;
 };
 
 const formatOpenScadPolyhedron = (object) => {
