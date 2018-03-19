@@ -7,13 +7,57 @@ A library to manipulate OpenSCAD Polyhedrons
 This library is still in development (pre 1.0.0) and may change *significantly* between minor versions.
 Once it reaches 1.0.0 all breaking changes will use a major revision number, as dictated by semver.
 
-
-### Convertor
+## HTML Convertor
 An update to the original STL to OpenSCAD convertor, which eliminate the extra vertices, is included as `convert.html`. 
 It is also [available online at JSFiddle](http://jsfiddle.net/_sir/yzvGD/595/). 
-There is a plan to provide a Node-friendly convertor by 1.0.0, as well.
+
+As of 0.10.0, the library supports converting STL to OpenSCAD on NodeJS.
 
 ## Functions
+
+### Convert Functions
+
+#### load(filename)
+Load an STL as an object for manipulation, using the [stl](https://www.npmjs.com/package/stl) package.
+
+Returns a Promise.
+
+```javascript
+myModelPromise = osPoly.load('./test.stl');
+  
+// Promise chaining example
+osPoly.load('./example.stl')
+  .then(model => osPoly.center(model, 'x'));
+```
+
+#### format(model, [moduleIndex])
+Convert an object into a string equivalent of an OpenSCAD document as a step before saving.
+Supports an optional index to allow multiple objects to save into a file.
+
+```javascript
+osPoly.format(myModel);
+```
+
+#### save(filename, model)
+Save the object as an OpenSCAD file. Currently supports only a single object.
+
+Returns a Promise.
+
+```javascript
+savePromise = osPoly.save('./example.scad', myModel);
+```
+
+#### process(stlFile, scadFile)
+Import an STL file, simplify it, and export an OpenSCAD document.
+This provides my most common workflow as a single command.
+
+```javascript
+osPoly.process('./example.stl', './example.scad');
+  
+// Chaining example
+osPoly.process('./example.stl', './example.scad')
+  .then(() => console.log('Success'), e => console.log(e));
+```
 
 ### Simplify Functions
 
@@ -74,12 +118,14 @@ osPoly.removeDeadPoints(myModel);
 
 ## Notes
 
-All exposed functions take a model, which is an object with arrays of points and faces.
+### Conventions
+
+Nearly all functions take a model, which is an object with arrays of points and faces.
 
 ```javascript
 myModel = {
-  points: [...],
-  faces: [...],
+  points: [],
+  faces: [],
 };
 ```
 
@@ -89,18 +135,28 @@ index `0`, `1`, or `2`, respectively.
 The original objects passed in are not modified.
 In some cases, the returned points and faces may reference the same original arrays.
 
-## Motivation
+### Compatibility
+
+This library is developed on Node 9.x, and is tested against 8.x.
+It uses functionality not available on previous releases.
+If you would like to use it with an earlier version of NodeJS, please open an issue on GitHub.
+
+### Motivation
 After importing an STL into OpenSCAD with [Riham's STL to OpenSCAD Convertor](http://jsfiddle.net/Riham/yzvGD/)
 on JSFiddle and [Thingiverse](https://www.thingiverse.com/thing:62666)), I discovered a significant duplication of points.
 I started working on a way to correct this. Along the way, this library was created.
 
-## Goals
+### Goals
 * ~~Perform simple, brute-force point de-duplication on polyhedrons.~~
 * ~~Move objects~~
 * ~~Cut parts of an object~~
 * ~~Provide a consistent interface for all functions~~
 * ~~Incorporate an update to Riham's original importer~~
-* Provide a Node-friendly version of the import functionality
+* ~~Provide a Node-friendly version of the import functionality~~
 * Identify faces sharing points in the same plane and merge them
+* Support multiple object loading in Node version
 * Update the HTML convertor visuals
+* Add tests?
 * Provide ES5 version?
+* Continue to provide "web" version?
+* Support earlier Node versionss?
