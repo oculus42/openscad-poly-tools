@@ -16,7 +16,7 @@
 
 0.7.0 - 2018-03-14
  - Switch to lodash/* packages rather than complete lodash.
- - Add Webpack 4 build and includ dist files in NPM package.
+ - Add Webpack 4 build and include dist files in NPM package.
 
 0.6.0 - 2018-03-13
  - Consistent function signatures
