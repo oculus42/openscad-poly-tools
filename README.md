@@ -1,4 +1,6 @@
 # osPoly - openscad-poly-tools
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/oculus42/openscad-poly-tools.svg)](https://greenkeeper.io/)
 A library to manipulate OpenSCAD Polyhedrons
 
 [![npm](https://img.shields.io/npm/v/openscad-poly-tools.svg)](https://www.npmjs.com/package/openscad-poly-tools) 
