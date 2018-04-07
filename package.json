@@ -41,5 +41,8 @@
     "dist",
     "html",
     "src"
-  ]
+  ],
+  "dependencies": {
+    "lodash.intersection": "^4.4.0"
+  }
 }

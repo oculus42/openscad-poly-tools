@@ -1,10 +1,11 @@
 // import { filterForMatch, removeDeadPoints } from './edit.mjs';
-// import { reportDuplicatePercentage, simplify } from './simplify.mjs';
+// import { mergeFaces, reportDuplicatePercentage, simplify } from './simplify.mjs';
 // import { center, moveToOrigin, translate } from './translate.mjs';
 // TODO: make it less painful to maintain both files
 import {
   center,
   filterForMatch,
+  mergeFaces,
   moveToOrigin,
   removeDeadPoints,
   reportDuplicatePercentage,
@@ -20,6 +21,7 @@ export {
   filterForMatch,
   format,
   load,
+  mergeFaces,
   moveToOrigin,
   process,
   removeDeadPoints,
