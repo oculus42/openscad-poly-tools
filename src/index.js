@@ -5,6 +5,7 @@
 import {
   center,
   filterForMatch,
+  getFaceSets,
   mergeFaces,
   moveToOrigin,
   removeDeadPoints,
@@ -20,6 +21,7 @@ export {
   center,
   filterForMatch,
   format,
+  getFaceSets,
   load,
   mergeFaces,
   moveToOrigin,

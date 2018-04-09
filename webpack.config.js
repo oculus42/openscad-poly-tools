@@ -2,6 +2,7 @@ const path = require('path');
 
 const serverConfig = {
   target: 'node',
+  mode: 'development',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'ospoly.node.js',

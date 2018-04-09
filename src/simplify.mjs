@@ -115,26 +115,135 @@ const getInsertPosition = (face, firstIndex, secondIndex) => {
 
 const getSparePoint = (face, points) => face.find(point => !points.includes(point));
 
-// const meshFaces = (startFace, addFace) => {
-//
-// };
+const meshFaces = (currentFace, addFace, matches = intersect(currentFace, addFace)) => {
+  const firstIndex = currentFace.indexOf(matches[0]);
+  const secondIndex = currentFace.indexOf(matches[1]);
+  const pointToInsert = getSparePoint(addFace, matches);
+  const insertAt = getInsertPosition(currentFace, firstIndex, secondIndex);
 
-const mergeFaces = ({ points, faces, normals }) => {
+  // Add the missing point to this face.
+  currentFace.splice(insertAt, 0, pointToInsert);
+
+  return currentFace;
+};
+
+
+const getFaceSets = ({ faces, normals }) => normals.reduce((acc, normal, index) => {
+  const normalString = normal.join(',');
+  const entry = acc[normalString] || {
+    normal,
+    faces: [],
+  };
+
+  entry.faces.push(faces[index]);
+  acc[normalString] = entry;
+
+  return acc;
+}, {});
+
+
+const extractSingleFaceNormals = faceSets => Object.values(faceSets).reduce((acc, normalSet) => {
+  if (normalSet.faces.length > 1) {
+    acc.multiFaceSets.push(normalSet);
+  } else {
+    acc.faces.push(...normalSet.faces);
+    acc.normals.push(normalSet.normal);
+  }
+  return acc;
+}, {
+  faces: [],
+  normals: [],
+  multiFaceSets: [],
+});
+
+const mergeFaces = (shape) => {
   // Collect shared normals.
-  const faceSets = normals.reduce((acc, normal, index) => {
-    const normalString = normal.join(',');
-    const entry = acc[normalString] || [];
 
-    entry.push(faces[index]);
-    acc[normalString] = entry;
+  console.log('Start:', shape.faces.length);
 
-    return acc;
-  }, {});
+  // Accumulate any single entry faces.
+  const { faces, normals, multiFaceSets } = extractSingleFaceNormals(getFaceSets(shape));
+
+  console.log('Sets:', multiFaceSets.length);
+
+  let cycles = 0;
+
+  // Cycle over the sets of multiple faces
+  multiFaceSets.forEach((faceSet) => {
+    let currentFace;
+    let otherFaces = faceSet.faces;
+    let i;
+
+    do {
+      // For each face in the set.
+      [currentFace, ...otherFaces] = otherFaces;
+
+      for (i = 0; i < otherFaces.length; i += 1) {
+        cycles += 1;
+        const otherFace = otherFaces[i];
+        const matches = intersect(currentFace, otherFace);
+
+        if (matches.length === 2) {
+          // Merge the faces
+          meshFaces(currentFace, otherFace);
+          // Remove the other face
+          otherFaces.splice(i, 1);
+          // Reset the index and start again
+          i = 0;
+
+          console.log('Merged', otherFace);
+        } else if (matches.length > 2) {
+          console.log('RangeError', i, cycles, ':', matches.length, otherFace);
+        }
+      }
+
+      // Save off this face & normal
+      faces.push(currentFace);
+      normals.push(faceSet.normal);
+    } while (otherFaces.length > 0 && i < otherFaces.length);
+
+    if (otherFaces.length) {
+      // Any remaining faces should be pushed
+      faces.push(...otherFaces);
+      normals.push(...otherFaces.map(() => faceSet.normal));
+
+      console.log('Leftover', otherFaces.length);
+    }
+
+    // let neighborFaces;
+    //
+    // do {
+    //   // Get the intersecting faces
+    //   neighborFaces = otherFaces.filter(otherFace => intersect(currentFace, otherFace).length > 1);
+    //
+    //   for (let i = 0; i < neighborFaces.length; i += 1) {
+    //     const neighborFace = neighborFaces[i];
+    //     meshFaces(currentFace, neighborFace);
+    //
+    //   }
+    // } while (neighborFaces.length > 0);
+    //
+    // // Save off this face & normal
+    // faces.push(currentFace);
+    // normals.push(faceSet.normal);
+  });
+
+  return {
+    faces,
+    normals,
+  };
+};
+
+const mergeFaces2 = (shape) => {
+  // Collect shared normals.
+  const faceSets = getFaceSets(shape);
 
   // Identify common triangles
 
   // Start with the sets of matching normals
-  const newFaces = Object.values(faceSets).reduce((accumulator, faceSet) => {
+  const newFaces = Object.values(faceSets).reduce((accumulator, normalSet) => {
+
+    const faceSet = normalSet.faces;
 
     // Track merged faces
     const mergedFaces = [];
@@ -173,14 +282,8 @@ const mergeFaces = ({ points, faces, normals }) => {
           if (matches.length === 2) {
             // Avoid reprocessing this face.
             mergedFaces.push(neighborFace);
-
-            const firstIndex = currentFace.indexOf(matches[0]);
-            const secondIndex = currentFace.indexOf(matches[1]);
-            const pointToInsert = getSparePoint(neighborFace, matches);
-            const insertAt = getInsertPosition(currentFace, firstIndex, secondIndex);
-
-            // Add the missing point to this face.
-            currentFace.splice(insertAt, 0, pointToInsert);
+            // Actually merge the faces.
+            meshFaces(currentFace, neighborFace, matches);
           } else if (matches.length > 2) {
             console.log('Unhandled match length:', currentFace, '\n', neighborFace, matches);
 
@@ -210,12 +313,13 @@ const mergeFaces = ({ points, faces, normals }) => {
 
   // TODO: Can we filter down the normals to return them as well?
   return {
-    points,
+    points: shape.points,
     faces: newFaces,
   };
 };
 
 export {
+  getFaceSets,
   mergeFaces,
   reportDuplicatePercentage,
   simplify,
