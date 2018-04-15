@@ -1,8 +1,9 @@
 import { format, load, save } from './convert.mjs';
-import { simplify } from './simplify.mjs';
+import { simplify, mergeFaces } from './simplify.mjs';
 
-const process = (input, output) => load(input)
+const process = (input, output, merge) => load(input)
   .then(simplify)
+  .then(shape => (merge ? mergeFaces(shape) : shape))
   .then(format)
   .then(data => save(output, data));
 

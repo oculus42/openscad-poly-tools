@@ -107,11 +107,23 @@ const getInsertPosition = (face, firstIndex, secondIndex) => {
 
 const getSparePoint = (face, points) => face.find(point => !points.includes(point));
 
-const meshFaces = (currentFace, addFace, matches = intersect(currentFace, addFace)) => {
-  const firstIndex = currentFace.indexOf(matches[0]);
-  const secondIndex = currentFace.indexOf(matches[1]);
-  const pointToInsert = getSparePoint(addFace, matches);
-  const insertAt = getInsertPosition(currentFace, firstIndex, secondIndex);
+const meshFaces = (currentFace, addFace, insertAtProvided = -1, pointProvided = -1) => {
+  let insertAt;
+  let pointToInsert = pointProvided;
+
+  const matches = intersect(currentFace, addFace);
+
+  if (insertAtProvided !== -1) {
+    insertAt = insertAtProvided;
+  } else {
+    const firstIndex = currentFace.indexOf(matches[0]);
+    const secondIndex = currentFace.indexOf(matches[1]);
+    insertAt = getInsertPosition(currentFace, firstIndex, secondIndex);
+  }
+
+  if (pointToInsert === -1) {
+    pointToInsert = getSparePoint(addFace, matches);
+  }
 
   // Add the missing point to this face.
   currentFace.splice(insertAt, 0, pointToInsert);
@@ -148,10 +160,46 @@ const extractSingleFaceNormals = faceSets => Object.values(faceSets).reduce((acc
   multiFaceSets: [],
 });
 
+const findContiguousIndices = (baseArray, values) => {
+  const indices = values.reduce((acc, val) => {
+    // Do a for-each loop because we have to handle a value appearing multiple times.
+    baseArray.forEach((rec, index) => {
+      if (rec === val) {
+        acc.push(index);
+      }
+    });
+
+    return acc;
+  }, []);
+
+  const orderedIndicies = indices.sort();
+  const maxIndex = baseArray.length - 1;
+
+  const contiguous = orderedIndicies.reduce((acc, val, idx, arr) => {
+    const firstIndex = val;
+    const secondIndex = arr[idx === 0 ? (arr.length - 1) : idx + 1];
+
+    // console.log('>', firstIndex, secondIndex, '-', maxIndex);
+
+    if ((firstIndex === 0 && secondIndex === maxIndex) ||
+      (secondIndex === 0 && firstIndex === maxIndex) ||
+      Math.abs(firstIndex - secondIndex) === 1) {
+      // console.log('Found contiguous:', firstIndex, secondIndex);
+      return {
+        insertPoint: firstIndex,
+        matchingVals: [baseArray[firstIndex], baseArray[secondIndex]],
+      };
+    }
+    return acc;
+  }, -1);
+
+  return contiguous;
+};
+
 const mergeFaces = (shape) => {
   // Collect shared normals.
 
-  // console.log('Start:', shape.faces.length);
+  console.log('Starting Faces:', shape.faces.length);
 
   // Accumulate any single entry faces.
   const { faces, normals, multiFaceSets } = extractSingleFaceNormals(getFaceSets(shape));
@@ -178,17 +226,37 @@ const mergeFaces = (shape) => {
         const matches = intersect(currentFace, otherFace);
         // console.log('Testing face:', otherFace, '@', i, '>', matches);
 
-        if (matches.length === 2) {
-          // Merge the faces
-          meshFaces(currentFace, otherFace);
-          // Remove the other face
-          otherFaces.splice(i, 1);
-          // Reset the index to -1 (so it's 0 after the += 1) and start again.
-          i = -1;
+        const maxIndex = currentFace.length - 1;
 
-          // console.log('Merged', otherFace, '>', currentFace);
+        if (matches.length === 2) {
+          const firstIndex = currentFace.indexOf(matches[0]);
+          const secondIndex = currentFace.indexOf(matches[1]);
+
+          if ((firstIndex === 0 && secondIndex === maxIndex) ||
+            (secondIndex === 0 && firstIndex === maxIndex) ||
+              Math.abs(firstIndex - secondIndex) === 1) {
+            // Merge the faces
+            meshFaces(currentFace, otherFace);
+            // Remove the other face
+            otherFaces.splice(i, 1);
+            // Reset the index to -1 (so it's 0 after the += 1) and start again.
+            i = -1;
+
+            // console.log('Merged', otherFace, '>', currentFace);
+          } else {
+            // console.log('not contiguous', firstIndex, secondIndex);
+            // console.log(currentFace, otherFace);
+          }
         } else if (matches.length > 2) {
-          // console.log('RangeError', i, cycles, ':', matches.length, otherFace);
+          console.log('RangeError', i, cycles, ':', matches.length);
+          console.log(currentFace, otherFace);
+
+          const contiguousIndex = findContiguousIndices(currentFace, matches);
+          if (contiguousIndex !== -1) {
+            const valueToInsert = getSparePoint(otherFace, contiguousIndex.matchingVals);
+
+            meshFaces(currentFace, otherFace, contiguousIndex.insertPoint, valueToInsert);
+          }
         }
       }
 
@@ -207,6 +275,8 @@ const mergeFaces = (shape) => {
       normals.push(...otherFaces.map(() => faceSet.normal));
     }
   });
+
+  console.log('Ending Faces:', faces.length);
 
   return {
     faces,
