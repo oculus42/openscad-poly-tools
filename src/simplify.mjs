@@ -248,15 +248,16 @@ const mergeFaces = (shape) => {
             // console.log(currentFace, otherFace);
           }
         } else if (matches.length > 2) {
-          console.log('RangeError', i, cycles, ':', matches.length);
-          console.log(currentFace, otherFace);
-
-          const contiguousIndex = findContiguousIndices(currentFace, matches);
-          if (contiguousIndex !== -1) {
-            const valueToInsert = getSparePoint(otherFace, contiguousIndex.matchingVals);
-
-            meshFaces(currentFace, otherFace, contiguousIndex.insertPoint, valueToInsert);
-          }
+          // console.log('RangeError', i, cycles, ':', matches.length);
+          // console.log(currentFace, otherFace);
+          //
+          // const contiguousIndex = findContiguousIndices(currentFace, matches);
+          // if (contiguousIndex !== -1) {
+          //   const valueToInsert = getSparePoint(otherFace, contiguousIndex.matchingVals);
+          //
+          //   // TODO: This is causing overlaps.
+          //   meshFaces(currentFace, otherFace, contiguousIndex.insertPoint, valueToInsert);
+          // }
         }
       }
 
