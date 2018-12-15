@@ -1,6 +1,6 @@
 {
   "name": "openscad-poly-tools",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "OpenSCAD Polyhedron Tools",
   "main": "dist/ospoly.node.js",
   "scripts": {
